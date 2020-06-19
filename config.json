@@ -1,9 +1,9 @@
 {
-	"name": "ClassNameHere",
+	"name": "Realtime Randomization",
 
-	"namespace": "Stanford\\ClassNameHere",
+	"namespace": "Stanford\\RealtimeRandomization",
 
-	"description": "A template for a REDCap External Module",
+	"description": "This module allows you to auto-randomize after saving any form without user interaction.  It can be used, for example, to randomize someone upon completion of an eligiblity survey.  It supports logic to control randomization, strata, and Data Access Groups.",
 
 	"documentation": "README.md",
 
@@ -16,12 +16,10 @@
 	],
 
 	"permissions": [
-		"redcap_module_system_enable",
-		"redcap_module_project_enable",
-		"redcap_module_save_configuration"
+		"redcap_save_record"
 	],
-	
-	"enable-every-page-hooks-on-system-pages": false,	
+
+	"enable-every-page-hooks-on-system-pages": false,
 
 	"links": {
 		"project": [
@@ -37,6 +35,24 @@
 	],
 
 	"project-settings": [
+        {
+            "key": "trigger-form",
+            "name": "<b>Trigger Form</b><br>If specified, randomization will only happen when this form is saved",
+            "required": false,
+            "type": "form-list"
+        },
+        {
+            "key": "trigger-event",
+            "name": "<b>Trigger Event</b><br>If specified, randomization will only happen when a save occurs in this event",
+            "required": false,
+            "type": "event-list"
+        },
+        {
+            "key": "trigger-logic",
+            "name": "<b>Trigger Logic</b><br>If specified, randomization will only happen when this logic is true",
+            "required": false,
+            "type": "text"
+        },
 		{
 			"key": "enable-project-debug-logging",
 			"name": "<b>Enable Debug Logging</b><br><i>(optional)</i> Requires installation and configuration of emLogger",
