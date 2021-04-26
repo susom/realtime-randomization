@@ -48,7 +48,8 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
             return;
         }
         if (!empty($this->triggerLogic) &&
-            !REDCap::evaluateLogic($this->triggerLogic,$project_id,$record,$event_id,$repeat_instance,$instrument)) {
+            // Do piping?
+            !REDCap::evaluateLogic($this->triggerLogic,$project_id,$record,$event_id,$repeat_instance,"",$instrument)) {
             $this->emDebug("$this->triggerLogic evaluated as false - skipping...");
             return;
         }
