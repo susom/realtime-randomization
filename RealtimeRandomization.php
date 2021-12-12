@@ -57,7 +57,7 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
 
         // Are they already randomized
         list($randField, $randValue) = Randomization::getRandomizedValue($record);
-        if (!empty($randValue)) {
+        if ($randValue != '') {
             $this->emDebug($record . " already randomized: " . $randValue);
             return;
         };
@@ -73,7 +73,7 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
         $fields = array();
         foreach ($randAttr['strata'] as $field_name => $event_id) {
             $q = REDCap::getData($project_id,'array',$record, $field_name, $event_id);
-            if (empty($q[$record][$event_id][$field_name])) {
+            if ($q[$record][$event_id][$field_name] == '') {
                 $this->emDebug("Missing required strata value for $field_name");
                 return;
             } else {
