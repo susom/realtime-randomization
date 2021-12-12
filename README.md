@@ -13,4 +13,5 @@ Common configuration issues or error messages are logged to the project logs.  A
 This module uses some core REDCap methods not documented for EM usage.  As a result, there is a higher chance future updates to REDCap could affect this project.  Use of this module should be tested before/after each upgrade.
 
 ### Fixes
+2021-12-13 Fix to empty value checking so '0' (e.g. as stratum or allocation value) is treated as not empty.
 2021-04-26 Fixed a bug where smart-variables using the instrument name were failing
