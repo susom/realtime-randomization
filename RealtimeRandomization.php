@@ -80,7 +80,8 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
                 $fields[$field_name] = $q[$record][$event_id][$field_name];
             }
         }
-
+        $group_id = ($randAttr['group_by'] === null) ? null : $group_id; // only pass group id when DAG is a stratification factor
+		
         // Randomize and return aid key
         $aid = Randomization::randomizeRecord($record, $fields, $group_id);
 
