@@ -99,20 +99,17 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
         list($randField, $randValue) = Randomization::getRandomizedValue($record);
 
         // I am unable to get the value to save using normal methods... So, I'm doing it manually
-        $sql = sprintf("select * from redcap_data where project_id = %d and record = '%s' and event_id = %d and field_name = '%s'",
-            $project_id, $record, $targetEvent, $targetField);
-        $q = db_query($sql);
-        if (db_num_rows($q) > 0) {
+        $result = $this->query("SELECT * FROM redcap_data WHERE project_id=? and record=? and event_id=? and field_name=?", [$project_id, $record, $targetEvent, $targetField]);
+
+        if ($result->num_rows > 0) {
             // Field exists
-            $this->emError("It appears there is already a value for the random field.", db_fetch_assoc($q));
-            REDCap::logEvent($this->getModuleName(), "Error randomizing $record -- already has a value for $targetField","",$record,$event_id);
+            $this->emError("It appears there is already a value for the random field.", $result->fetch_assoc());
+            REDCap::logEvent($this->getModuleName(), "Error randomizing $record -- already has a value for $targetField", "", $record, $event_id);
         } else {
             // Do an insert
-            $sql = sprintf("insert into redcap_data (project_id, event_id, record, field_name, value) " .
-                "values(%d, %d, '%s', '%s', '%s')", $project_id, $event_id, $record, $targetField, $randValue);
-            $q = db_query($sql);
-            $this->emDebug("Insert Result", $q);
-            REDCap::logEvent($this->getModuleName(),"$targetField = '$randValue'",$sql,$record, $event_id);
+            $result = $this->query("INSERT INTO redcap_data (project_id, event_id, record, field_name, value) VALUES (? , ? , ? , ? , ?)", [$project_id, $event_id, $record, $targetField, $randValue]);
+            $this->emDebug("Insert Result", $result);
+            REDCap::logEvent($this->getModuleName(),"$targetField = '$randValue'",$result,$record, $event_id);
         }
 
         return true;
