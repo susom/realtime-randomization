@@ -19,7 +19,7 @@
 		"redcap_save_record"
 	],
 
-    "framework-version": 7,
+    "framework-version": 9,
 
 	"enable-every-page-hooks-on-system-pages": false,
 

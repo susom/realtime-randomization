@@ -15,4 +15,4 @@ This module uses some core REDCap methods not documented for EM usage.  As a res
 ### Fixes
 2021-12-13 Fix to empty value checking so '0' (e.g. as stratum or allocation value) is treated as not empty.
 2021-04-26 Fixed a bug where smart-variables using the instrument name were failing
-2023-02-21 Updating framework to version 7 and releasing version 1.0.2
+2023-02-21 Updating framework to version 9 and releasing version 1.0.2
