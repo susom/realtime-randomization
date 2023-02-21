@@ -19,6 +19,8 @@
 		"redcap_save_record"
 	],
 
+    "framework-version": 7,
+
 	"enable-every-page-hooks-on-system-pages": false,
 
 	"links": {

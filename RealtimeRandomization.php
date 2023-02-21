@@ -81,7 +81,7 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
             }
         }
         $group_id = ($randAttr['group_by'] === null) ? null : $group_id; // only pass group id when DAG is a stratification factor
-		
+
         // Randomize and return aid key
         $aid = Randomization::randomizeRecord($record, $fields, $group_id);
 
@@ -100,7 +100,10 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
         list($randField, $randValue) = Randomization::getRandomizedValue($record);
 
         // I am unable to get the value to save using normal methods... So, I'm doing it manually
-        $result = $this->query("SELECT * FROM redcap_data WHERE project_id=? and record=? and event_id=? and field_name=?", [$project_id, $record, $targetEvent, $targetField]);
+        $result = $this->query(
+            "SELECT * FROM redcap_data WHERE project_id=? and record=? and event_id=? and field_name=?",
+            [$project_id, $record, $targetEvent, $targetField]
+        );
 
         if ($result->num_rows > 0) {
             // Field exists
@@ -108,7 +111,10 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
             REDCap::logEvent($this->getModuleName(), "Error randomizing $record -- already has a value for $targetField", "", $record, $event_id);
         } else {
             // Do an insert
-            $result = $this->query("INSERT INTO redcap_data (project_id, event_id, record, field_name, value) VALUES (? , ? , ? , ? , ?)", [$project_id, $event_id, $record, $targetField, $randValue]);
+            $result = $this->query(
+                "INSERT INTO redcap_data (project_id, event_id, record, field_name, value) VALUES (? , ? , ? , ? , ?)",
+                [$project_id, $event_id, $record, $targetField, $randValue]
+            );
             $this->emDebug("Insert Result", $result);
             REDCap::logEvent($this->getModuleName(),"$targetField = '$randValue'",$result,$record, $event_id);
         }
