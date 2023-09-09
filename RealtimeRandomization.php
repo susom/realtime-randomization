@@ -5,7 +5,6 @@ require_once "emLoggerTrait.php";
 
 use REDCap;
 use Randomization;
-use Records;
 
 class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
 
@@ -15,17 +14,11 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
     public $triggerEvent;
     public $triggerLogic;
 
-    public function __construct() {
-		parent::__construct();
-		// Other code to run when object is instantiated
-	}
-
 	public function load() {
         $this->triggerForm  = $this->getProjectSetting('trigger-form');
         $this->triggerEvent = $this->getProjectSetting('trigger-event');
         $this->triggerLogic = $this->getProjectSetting('trigger-logic');
     }
-
 
 	public function redcap_save_record( $project_id, $record, $instrument, $event_id, $group_id,$survey_hash,$response_id,$repeat_instance=1) {
         global $Proj;
@@ -121,8 +114,5 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
 
         return true;
     }
-
-
-
 
 }

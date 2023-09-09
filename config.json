@@ -15,11 +15,7 @@
 		}
 	],
 
-	"permissions": [
-		"redcap_save_record"
-	],
-
-    "framework-version": 9,
+    "framework-version": 13,
 
 	"enable-every-page-hooks-on-system-pages": false,
 
@@ -62,7 +58,6 @@
 			"type": "checkbox"
 		}
 	],
-
 
 	"system-settings": [
 		{
