@@ -31,6 +31,8 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
 
         $this->load();
 
+        $data_table = method_exists('\REDCap', 'getDataTable') ? \REDCap::getDataTable($project_id) : "redcap_data";
+
         // Validation
         if (!empty($this->triggerForm) && $this->triggerForm !== $instrument) {
             $this->emDebug("$this->triggerForm is not the same form as $instrument - skipping...");
@@ -94,8 +96,8 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
 
         // I am unable to get the value to save using normal methods... So, I'm doing it manually
         $result = $this->query(
-            "SELECT * FROM redcap_data WHERE project_id=? and record=? and event_id=? and field_name=?",
-            [$project_id, $record, $targetEvent, $targetField]
+            "SELECT * FROM ? WHERE project_id=? and record=? and event_id=? and field_name=?",
+            [$data_table, $project_id, $record, $targetEvent, $targetField]
         );
 
         if ($result->num_rows > 0) {
@@ -105,8 +107,8 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
         } else {
             // Do an insert
             $result = $this->query(
-                "INSERT INTO redcap_data (project_id, event_id, record, field_name, value) VALUES (? , ? , ? , ? , ?)",
-                [$project_id, $event_id, $record, $targetField, $randValue]
+                "INSERT INTO ? (project_id, event_id, record, field_name, value) VALUES (? , ? , ? , ? , ?)",
+                [$data_table, $project_id, $event_id, $record, $targetField, $randValue]
             );
             $this->emDebug("Insert Result", $result);
             REDCap::logEvent($this->getModuleName(),"$targetField = '$randValue'",$result,$record, $event_id);
