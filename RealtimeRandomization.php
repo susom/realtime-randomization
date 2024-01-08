@@ -103,15 +103,15 @@ class RealtimeRandomization extends \ExternalModules\AbstractExternalModule {
         if ($result->num_rows > 0) {
             // Field exists
             $this->emError("It appears there is already a value for the random field.", $result->fetch_assoc());
-            REDCap::logEvent($this->getModuleName(), "Error randomizing $record -- already has a value for $targetField", "", $record, $event_id);
+            REDCap::logEvent($this->getModuleName(), "Error randomizing $record -- already has a value for $targetField in event $targetEvent", "", $record, $targetEvent);
         } else {
             // Do an insert
             $result = $this->query(
                 "INSERT INTO $data_table (project_id, event_id, record, field_name, value) VALUES (? , ? , ? , ? , ?)",
-                [$project_id, $event_id, $record, $targetField, $randValue]
+                [$project_id, $targetEvent, $record, $targetField, $randValue]
             );
             $this->emDebug("Insert Result", $result);
-            REDCap::logEvent($this->getModuleName(),"$targetField = '$randValue'",$result,$record, $event_id);
+            REDCap::logEvent($this->getModuleName(),"$targetField = '$randValue'",$result,$record, $targetEvent);
         }
 
         return true;
